@@ -120,13 +120,14 @@ snapshot with the given metadata:
 
      add-snapshot \
         --application=application-name \
+        --instance=instance-name \
         --version=1.2.3.4 \
         --sha256=8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4
 
 The tarball must be sent to the command's `stdin`:
 
     tar -cf - /path/to/snapshot/directory | ssh backupservice \
-        "add-snapshot --application=application --version=1.2.3.4 \
+        "add-snapshot --instance=app01 --application=application --version=1.2.3.4 \
         --sha256=8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4"
 
 The command will exit with -10 when the snapshot already exists in the
@@ -177,6 +178,10 @@ the descriptor file.
 SHA256 checksum for the tarball.
 
     application=text
+
+Used together with `timestamp` to group and sort many snapshots.
+
+    instance=text
 
 Used together with `timestamp` to group and sort many snapshots.
 
