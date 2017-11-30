@@ -69,11 +69,11 @@ full snapshot of the application state once per day.
 ![system-design](system-design.png "System design")
 
 On each cluster node, a snapshot agent is installed with modules configured for
-all applications that should be backed up.  The agent runs once per day, creates
-snapshots, and stores them in a local cache on the node.  To protect snapshots
-from corruption due to faulty nodes or attackers, the agent then sends them to
-the backup service via restricted SSH.  Snapshots are only purged from the local
-cache after they were successfully stored in the backup service.
+all applications that should be backed up.  The agent runs once or more per day,
+creates snapshots, and stores them in a local cache on the node.  To protect
+snapshots from corruption due to faulty nodes or attackers, the agent then sends
+them to the backup service via restricted SSH.  Snapshots are only purged from
+the local cache after they were successfully stored in the backup service.
 
 ## Snapshot agent
 
@@ -133,26 +133,17 @@ The tarball must be sent to the command's `stdin`:
 The command will exit with -10 when the snapshot already exists in the
 repository (based on the given sha256 checksum).
 
-The backup service can decide to ignore snapshots with checksums already stored
-in the repository.
+The backup service organizes snapshots per application and instance.  For each
+application (and optional instance) a retention policy can be configured.  It
+defines how many snapshots are kept at any point in time.
 
-When a new snapshot enters the service, it is determined in which bucket it must
-be stored:
+When new snapshots enter the service, the backup service adds them to the
+repository and purges old snapshots automatically based on the retention policy,
+while keeping a sufficient number of snapshots available.  The backup service
+can decide to ignore snapshots with checksums already stored in the repository.
 
-- `daily`: every snapshot
-- `weekly`: snapshots on the last day of the week
-- `monthly`: snapshots on the last day of the month
-- `yearly`: snapshots on the last day of the year
-
-Each bucket has a different retention policy:
-
-- `daily`: snapshots of the last 7 days
-- `weekly`: snapshots of the last 4 weeks
-- `monthly`: snapshots of the last 12 months
-- `yearly`: snapshots kept forever
-
-All snapshots can be further replicated to another off-site host or copied to
-tapes, but this is out of scope for BYSU.
+Snapshots can be further replicated to another off-site host or copied to tapes,
+but this is out of scope for BYSU.
 
 ### Snapshot data
 
