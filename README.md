@@ -25,7 +25,7 @@ BYSU was designed with two use cases in mind:
     mechanism.
 
     **BYUS focuses on creating snapshots in a simple and future-proof format
-    (read: text files and tar) and collecting them in a central repository.  
+    (read: text files and tar) and collecting them in a central repository.
     Snapshots must be restored manually.**
 
     Because the mechanism is only designed for disaster recovery, rotation and
