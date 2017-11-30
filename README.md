@@ -30,13 +30,13 @@ BYSU was designed with two use cases in mind:
 
     Because the mechanism is only designed for disaster recovery, rotation and
     retention policies can be relaxed.  We couldn't think of a reason to include
-    multiple generations of historical snapshots using the grandfather/father/
-    son rotation scheme: Snapshots usually contain complex RDBMS dumps which
-    cannot easily be merged, and getting individual pieces from a historical
-    snapshot would require provisioning a second application instance, restoring
-    the snapshot, and finally extracting data using the application's UI.  It
-    also rarely, if ever, happens that such data must be accessed and it just
-    doesn't seem worth the effort.
+    multiple generations of historical snapshots using a grandfather-father-son
+    rotation scheme: Snapshots usually contain complex RDBMS dumps which cannot
+    easily be merged, and getting individual pieces from a historical snapshot
+    would require provisioning a second application instance, restoring the
+    snapshot, and finally extracting data using the application's UI.  It also
+    rarely, if ever, happens that such data must be accessed and it just doesn't
+    seem worth the effort.
 
     **BYUS allows to store e.g. the last x snapshots for an application, but
     does not perform any rotation.**
@@ -45,7 +45,7 @@ BYSU was designed with two use cases in mind:
 
     Applications in a production environment are snapshotted e.g. daily, and the
     last snapshot can be restored in a staging environment automatically, e.g.
-    for load testing with real-world.
+    for load testing with real-world data.
 
     **Automatic restore is out of scope for BYSU, but the BYSU snapshot
     repository could act as a central building block for such a system.**
