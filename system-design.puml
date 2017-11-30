@@ -1,0 +1,27 @@
+@startuml
+
+package "Cluster Node" {
+    [OS Scheduler]
+    [Application]
+    [Snapshot Agent]
+    [Local Cache]
+
+    [OS Scheduler] --> [Snapshot Agent] : Runs daily
+    [Snapshot Agent] --> [Application] : Reads data
+    [Snapshot Agent] --> [Local Cache] : Creates snapshot
+    
+}
+
+package "Backup Service" {
+    [Ingester]
+    [Purger]
+    [Snapshot Repository]
+    [Offsite Backup]
+
+    [Snapshot Agent] --> [Ingester] : Add snapshot
+    [Ingester] --> [Snapshot Repository] : Store snapshots in buckets
+    [Purger] -->  [Snapshot Repository] : Purge buckets daily
+    [Snapshot Repository] --> [Offsite Backup] : Copied
+}
+
+@enduml
